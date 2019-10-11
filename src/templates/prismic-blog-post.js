@@ -1,13 +1,20 @@
 import React from "react"
 import { graphql } from "gatsby"
+import Img from "gatsby-image"
+
+import Layout from "../components/layout"
 
 const Post = ({ data: { prismicBlogPost } }) => {
   const { data } = prismicBlogPost
   return (
-    <React.Fragment>
+    <Layout>
       <h1>{data.title.text}</h1>
+      <Img
+        fixed={data.featured_image.localFile.childImageSharp.fixed}
+        alt="Gatsby and Prismic logos"
+      />
       <div>{data.content.text}</div>
-    </React.Fragment>
+    </Layout>
   )
 }
 
@@ -23,6 +30,15 @@ export const pageQuery = graphql`
         }
         content {
           text
+        }
+        featured_image {
+          localFile {
+            childImageSharp {
+              fixed {
+                ...GatsbyImageSharpFixed
+              }
+            }
+          }
         }
       }
     }
